@@ -82,7 +82,6 @@ export const generateQuiz = async (req, res, next) => {
         }
         // generate quiz using gemini
         const questions = await geminiService.generateQuiz(document.extractedText, parseInt(numQuestions));
-        console.log("Generated Quiz:", questions);
         if (!Array.isArray(questions) || questions.length === 0) {
             return res.status(400).json({
                 success: false,
@@ -158,6 +157,66 @@ export const generateSummary = async (req, res, next) => {
 
 export const chat = async (req, res, next) => {
     try {
+        const {documentId , question} = req.body;
+        if(!documentId || !question) {
+            return res.status(400).json({
+                success: false,
+                error: "Document id and question is required",
+                statusCode: 400
+            });
+        }
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: "ready"
+        });
+        if(!document) {
+            return res.status(404).json({
+                success: false,
+                error: "Document not found",
+                statusCode: 404
+            });
+        }
+        const relevantChunks = findRelevantChunks(document.chunks , question , 3);
+        const chunkIndices = relevantChunks.map(chunk => chunk.chunkIndex);
+
+        let chatHistory = await ChatHistory.findOne({
+            userId: req.user._id,
+            documentId: document._id
+        }); 
+        if(!chatHistory) {
+            chatHistory = await ChatHistory.create({
+                userId: req.user._id,
+                documentId: document._id,
+                chatHistory: []
+            });
+        }
+        // generate response using gemini 
+
+        const answer = await geminiService.chatWithContext(question , relevantChunks);
+        chatHistory.messages.push({
+            role : "user",
+            content : question,
+            timestamp : new Date(),
+            relevantChunks : chunkIndices
+        },
+        {
+            role : "assistant",
+            content : answer,
+            timestamp : new Date(),
+            relevantChunks : chunkIndices
+        });
+        await chatHistory.save();
+        return res.status(200).json({
+            success: true,
+            data: {
+                question,
+                answer,
+                relevantChunks : chunkIndices,
+                chatHistoryId : chatHistory._id
+            },
+            message: "Response generated successfully"
+        })
     }
     catch (error) {
         next(error);
@@ -182,6 +241,7 @@ export const explainConcept = async (req, res, next) => {
 
 export const getChatHistory = async (req, res, next) => {
     try {
+        
     }
     catch (error) {
         next(error);

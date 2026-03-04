@@ -31,7 +31,7 @@ export const chunkText = (text, chunkSize = 500, overlap = 50) => {
         if (paragraphWordCount > chunkSize) {
             if (currentChunk.length > 0) {
                 chunks.push({
-                    content: currentChunk.join("\n\n"),
+                    text: currentChunk.join("\n\n"),
                     chunkIndex: chunkIndex++,
                     pageNumber: 0
                 });
@@ -43,7 +43,7 @@ export const chunkText = (text, chunkSize = 500, overlap = 50) => {
             for (let i = 0; i < paragraphWords.length; i += (chunkSize - overlap)) {
                 const chunkWords = paragraphWords.slice(i, i + chunkSize);
                 chunks.push({
-                    content: chunkWords.join(" "),
+                    text: chunkWords.join(" "),
                     chunkIndex: chunkIndex++,
                     pageNumber: 0
                 });
@@ -56,7 +56,7 @@ export const chunkText = (text, chunkSize = 500, overlap = 50) => {
         // if adding the paragraph exceeds chunk size, save the current chunk 
         if (currentWordCount + paragraphWordCount > chunkSize && currentChunk.length > 0) {
             chunks.push({
-                content: currentChunk.join("\n\n"),
+                text: currentChunk.join("\n\n"),
                 chunkIndex: chunkIndex++,
                 pageNumber: 0
             });
@@ -75,7 +75,7 @@ export const chunkText = (text, chunkSize = 500, overlap = 50) => {
 
     if (currentChunk.length > 0) {
         chunks.push({
-            content: currentChunk.join("\n\n"),
+            text: currentChunk.join("\n\n"),
             chunkIndex: chunkIndex,
             pageNumber: 0
         });
@@ -85,7 +85,7 @@ export const chunkText = (text, chunkSize = 500, overlap = 50) => {
         for (let i = 0; i < allWords.length; i += (chunkSize - overlap)) {
             const chunkWords = allWords.slice(i, i + chunkSize);
             chunks.push({
-                content: chunkWords.join(" "),
+                text: chunkWords.join(" "),
                 chunkIndex: chunkIndex++,
                 pageNumber: 0
             });
@@ -111,14 +111,14 @@ export const findRelevantChunks = (chunks, query, maxChunks = 3) => {
     const queryWords = query.toLowerCase().split(/\s+/).filter(word => word.length > 2 && !stopWords.has(word));
     if (queryWords.length === 0) {
         return chunks.slice(0, maxChunks).map(chunk => ({
-            content: chunk.content,
+            text: chunk.text || "",
             chunkIndex: chunk.chunkIndex,
             pageNumber: chunk.pageNumber
         }));
     }
 
     const scoredChunks = chunks.map((chunk, index) => {
-        const content = chunk.content.toLowerCase();
+        const content = chunk.text.toLowerCase();
         let contentWords = content.split(/\s+/).length;
         let score = 0;
 
@@ -138,7 +138,7 @@ export const findRelevantChunks = (chunks, query, maxChunks = 3) => {
         const normalizedScore = score / Math.sqrt(contentWords); // normalize by content length
         const positionBonus = Math.max(0, 1 - index / chunks.length) * 0.1; // bonus for earlier chunks
         return {
-            content: chunk.content,
+            text: chunk.text || "",
             chunkIndex: chunk.chunkIndex,
             pageNumber: chunk.pageNumber,
             _id: chunk._id,

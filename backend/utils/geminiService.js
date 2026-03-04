@@ -175,10 +175,8 @@ export const generateSummary = async (text) => {
 
 export const chatWithContext = async (question, chunks) => {
     const context = chunks.map((chunk, index) => {
-        return `Chunk ${index + 1}\n${chunk.content}`;
+        return `Chunk ${index + 1}\n${chunk.text}`;
     }).join('\n\n');
-
-    console.log("Context_____ ", context);
 
     const prompt = `Based on the following context from a document , Analyse the context and answer the user's question . If the answer is not in the context , say so
     Context ${context}
@@ -187,7 +185,7 @@ export const chatWithContext = async (question, chunks) => {
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.0-chat-lite",
+            model: "gemini-2.5-flash-lite",
             contents: prompt,
         });
         const generatedText = response.text.trim();
