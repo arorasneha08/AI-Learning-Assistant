@@ -229,6 +229,39 @@ export const chat = async (req, res, next) => {
 
 export const explainConcept = async (req, res, next) => {
     try {
+        const {documentId , concept} = req.body;
+        if(!documentId || !concept) {
+            return res.status(400).json({
+                success: false,
+                error: "Document id and concept is required",
+                statusCode: 400
+            });
+        }
+        const document = await Document.findOne({
+            _id: documentId,
+            userId: req.user._id,
+            status: "ready"
+        });
+        if(!document) {
+            return res.status(404).json({
+                success: false,
+                error: "Document not found",
+                statusCode: 404
+            });
+        }
+        const relevantChunks = findRelevantChunks(document.chunks , concept , 3);
+        const context = relevantChunks.map(c => c.text).join('\n\n');
+        const explanation = await geminiService.explainConcept(concept , context);
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                concept,
+                explanation,
+                relevantChunks : relevantChunks.map(c => c.chunkIndex)
+            },
+            message: "Concept explained successfully"
+        })
     }
     catch (error) {
         next(error);
@@ -241,7 +274,32 @@ export const explainConcept = async (req, res, next) => {
 
 export const getChatHistory = async (req, res, next) => {
     try {
-        
+        const {documentId} = req.params;
+        if(!documentId){
+            return res.status(400).json({
+                success: false,
+                error: "Document id is required",
+                statusCode: 400
+            });
+        }
+        const chatHistory = await ChatHistory.findOne({
+            userId: req.user._id,
+            documentId: documentId
+        }).select('messages');
+
+        if(!chatHistory) {
+            return res.status(404).json({
+                success: false,
+                data : [] , 
+                message: "Chat history not found",
+                statusCode: 404
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: chatHistory.messages,
+            message: "Chat history fetched successfully"
+        })
     }
     catch (error) {
         next(error);

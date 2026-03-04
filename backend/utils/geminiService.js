@@ -213,7 +213,7 @@ export const explainConcept = async (concept, context) => {
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.0-explain-lite",
+            model: "gemini-2.5-flash-lite",
             contents: prompt,
         });
         const generatedText = response.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
