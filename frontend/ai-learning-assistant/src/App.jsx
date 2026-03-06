@@ -15,10 +15,10 @@ import QuizResultPage from "./pages/Quizzes/QuizzesResultPage";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import FlashcardListPage from "./pages/Flashcards/FlashcardListPage";
 import FlashcardPage from "./pages/Flashcards/FlashcardPage";
+import { useAuth } from "./context/AuthContext";
 
 const App = () => {
-  const isAuthenticated = true;
-  const loading = false;
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
