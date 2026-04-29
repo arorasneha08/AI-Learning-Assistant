@@ -18,7 +18,7 @@ const generateQuiz = async(documentId , options) => {
         return response.data;
     }
     catch(error){
-        throw error.response?.data || {message : "Failed to generate flashcards"}; 
+        throw error.response?.data || {message : "Failed to generate Quiz"}; 
     }
 }
 
@@ -28,7 +28,7 @@ const generateSummary = async(documentId) => {
         return response.data;
     }
     catch(error){
-        throw error.response?.data || {message : "Failed to generate flashcards"}; 
+        throw error.response?.data || {message : "Failed to generate Summary"}; 
     }
 }
 
@@ -38,7 +38,7 @@ const chat = async(documentId , message) => {
         return response.data;
     }
     catch(error){
-        throw error.response?.data || {message : "Failed to generate flashcards"}; 
+        throw error.response?.data || {message : "Failed to generate Chat"}; 
     }
 }
 
@@ -48,7 +48,7 @@ const explainConcept = async(documentId , concept) => {
         return response.data;
     }
     catch(error){
-        throw error.response?.data || {message : "Failed to generate flashcards"}; 
+        throw error.response?.data || {message : "Failed to explain Concept"}; 
     }
 }
 
@@ -58,7 +58,7 @@ const getChatHistory = async(documentId) => {
         return response.data;
     }
     catch(error){
-        throw error.response?.data || {message : "Failed to generate flashcards"}; 
+        throw error.response?.data || {message : "Failed to get Chat History"}; 
     }
 }
 
