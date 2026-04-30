@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
 
-import quizService from "../../services/QuizService";
+import quizService from "../../services/quizService";
 import aiService from "../../services/AIService";
 import Spinner from "../common/Spinner";
 import Button from "../common/Button";

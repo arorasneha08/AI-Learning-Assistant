@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import moment from "moment";
-import flashcardService from "../../services/FlashcardService";
+import flashcardService from "../../services/flashcardService";
 import aiService from "../../services/AIService" ;
 import Spinner from "../common/Spinner";
 import Modal from "../common/Modal";
