@@ -42,6 +42,12 @@ app.use("/api/progress" , progressRoutes);
 
 app.use(errorHandler);
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "API is working"
+  });
+});
 
 app.use((req, res) => {
     res.status(404).json({
