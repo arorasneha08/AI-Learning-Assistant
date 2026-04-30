@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link , useNavigate} from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import AuthService from "../../services/authService";
+import authService from "../../services/authService";
 import { BrainCircuit, Mail, Lock, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const { token, user } = await AuthService.login(email, password);
+      const { token, user } = await authService.login(email, password);
       login(user, token);
       toast.success("Logged in successfully");
       navigate("/dashboard");

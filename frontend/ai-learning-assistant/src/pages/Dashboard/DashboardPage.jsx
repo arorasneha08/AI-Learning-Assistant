@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
 import Spinner from "../../components/common/Spinner";
-import progressService from "../../services/ProgressService";
+import progressService from "../../services/progressService";
 import toast from "react-hot-toast";
 import {
   FileText,

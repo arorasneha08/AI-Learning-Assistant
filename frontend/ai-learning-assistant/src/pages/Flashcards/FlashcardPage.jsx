@@ -2,7 +2,7 @@ import React , {useEffect , useState} from 'react'
 import { useParams , Link} from 'react-router-dom'
 import {ArrowLeft , Plus , ChevronLeft , ChevronRight, Trash2} from 'lucide-react'
 import FlashcardService from '../../services/flashcardService';
-import aiService from '../../services/aIService';
+import aiService from '../../services/aiService';
 import PageHeader from '../../components/common/PageHeader';
 import Spinner from '../../components/common/Spinner';
 import toast from 'react-hot-toast';

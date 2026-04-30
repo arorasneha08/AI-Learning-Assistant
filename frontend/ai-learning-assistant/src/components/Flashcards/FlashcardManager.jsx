@@ -11,7 +11,7 @@ import {
 import toast from "react-hot-toast";
 import moment from "moment";
 import flashcardService from "../../services/flashcardService";
-import aiService from "../../services/aIService" ;
+import aiService from "../../services/aiService" ;
 import Spinner from "../common/Spinner";
 import Modal from "../common/Modal";
 import Flashcard from "./Flashcard";

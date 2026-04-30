@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../../services/authService";
+import authService from "../../services/authService";
 import { BrainCircuit, Mail, Lock, ArrowRight, User } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -25,7 +25,7 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      await AuthService.register(username, email, password);
+      await authService.register(username, email, password);
       toast.success("Registered successfully ! Please login to continue");
       navigate("/login", { replace: true });
     } catch (error) {
