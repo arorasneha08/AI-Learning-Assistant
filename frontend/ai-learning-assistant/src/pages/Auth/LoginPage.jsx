@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link , useNavigate} from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import AuthService from "../../services/AuthService";
+import AuthService from "../../services/authService";
 import { BrainCircuit, Mail, Lock, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 
