@@ -28,7 +28,8 @@ export const uploadDocument = async (req, res, next) => {
                 statusCode: 400
             });
         }
-        const baseUrl = `http://localhost:${process.env.PORT || 8000}`;
+        // const baseUrl = `http://localhost:${process.env.PORT || 8000}`;
+        const baseUrl = "https://cognify-wrpf.onrender.com/";
         const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
         const document = await Document.create({
             title,
@@ -176,7 +177,7 @@ export const deleteDocument = async (req, res, next) => {
                 statusCode: 404
             });
         }
-        await fs.unlink(document.filePath.replace(`http://localhost:${process.env.PORT || 8000}/`, "")).catch(() => { });
+        await fs.unlink(document.filePath.replace("https://cognify-wrpf.onrender.com/", "")).catch(() => { });
 
         res.status(200).json({
             success: true,
