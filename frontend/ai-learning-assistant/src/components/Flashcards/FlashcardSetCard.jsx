@@ -6,7 +6,13 @@ const FlashcardSetCard = ({ flashcardSet }) => {
   const navigate = useNavigate();
 
   const handleStudyNow = () => {
+    if (flashcardSet._id === "starred-set") {
+    navigate(`/flashcards/starred` , {
+      state: { cards: flashcardSet.cards },
+    });
+  } else {
     navigate(`/documents/${flashcardSet.documentId._id}/flashcards`);
+  }
   };
   const reviewedCount = flashcardSet.cards.filter((card) => card.reviewCount > 0).length;
   const totalCards = flashcardSet.cards.length;

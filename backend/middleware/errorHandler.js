@@ -1,4 +1,5 @@
 const errorHandler = (err, req, res, next) => {
+    console.log(err); 
     let statusCode = err.statusCode || 500;
     let message = err.message || "Internal Server Error";
 
@@ -26,6 +27,14 @@ const errorHandler = (err, req, res, next) => {
     if(err.name === "TokenExpiredError"){
         statusCode = 401;
         message = "Your token has expired. Please log in again.";
+    }
+    if (err.name === 'LIMIT_FILE_SIZE') {
+        statusCode = 400;
+        message = 'File size is too large. Maximum allowed size is 5MB.';
+    }
+    if (err.message === 'Request aborted') {
+        statusCode = 400;
+        message = 'Upload cancelled';
     }
     console.error("Error : " , {
         message : err.message ,

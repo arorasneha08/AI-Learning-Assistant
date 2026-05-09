@@ -17,6 +17,7 @@ import FlashcardListPage from "./pages/Flashcards/FlashcardListPage";
 import FlashcardPage from "./pages/Flashcards/FlashcardPage";
 import { useAuth } from "./context/AuthContext";
 import ProfilePage from "./pages/Profile/ProfilePage";
+import StarredFlashcardsPage from "./components/Flashcards/StarredFlashcards";
 
 const App = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/quizzes/:quizId" element={<QuizTakePage />} />
           <Route path="/quizzes/:quizId/results" element={<QuizResultPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/flashcards/starred" element={<StarredFlashcardsPage/>}/>
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

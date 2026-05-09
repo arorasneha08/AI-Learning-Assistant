@@ -153,3 +153,30 @@ export const deleteFlashcardSet = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const getStarredFlashcards = async (req, res, next) => {
+  try {
+    const sets = await Flashcard.find({
+      userId: req.user._id,
+      "cards.isStarred": true,
+    }).populate("documentId", "title");
+
+    const starredCards = sets.flatMap((set) =>
+      set.cards
+        .filter((card) => card.isStarred)
+        .map((card) => ({
+          ...card.toObject(),
+          documentTitle: set.documentId?.title,
+          setId: set._id,
+        }))
+    );
+
+    res.status(200).json({
+      success: true,
+      count: starredCards.length,
+      data: starredCards,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

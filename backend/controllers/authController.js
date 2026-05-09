@@ -39,7 +39,6 @@ export const register = async (req, res, next) => {
                     _id: user._id,
                     username: user.username,
                     email: user.email,
-                    profileImage: user.profileImage,
                     createdAt: user.createdAt,
                 },
                 token, 
@@ -91,7 +90,6 @@ export const login = async (req, res, next) => {
                     _id: user._id,
                     username: user.username,
                     email: user.email,
-                    profileImage: user.profileImage,
                     createdAt: user.createdAt,
                 },
                 token, 
@@ -117,7 +115,6 @@ export const getProfile = async (req, res, next) => {
                 id : user._id,
                 username: user.username,
                 email: user.email,
-                profileImage: user.profileImage,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
             },
@@ -135,10 +132,10 @@ export const getProfile = async (req, res, next) => {
 // @access  Private
 export const updateProfile = async (req, res, next) => {
     try {
-        const { username, email , profileImage} = req.body;
+        const { username, email} = req.body;
         const user = await User.findByIdAndUpdate(
             req.user._id,
-            { username, email, profileImage },
+            { username, email},
             { new: true }
         );
         res.status(200).json({
@@ -147,7 +144,6 @@ export const updateProfile = async (req, res, next) => {
                 id : user._id,
                 username: user.username,
                 email: user.email,
-                profileImage: user.profileImage,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
             },

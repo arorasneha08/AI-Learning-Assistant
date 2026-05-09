@@ -51,8 +51,17 @@ const deleteFlashcardSet = async(id) => {
     }
 }
 
+const getStarredFlashcards = async () => {
+  try {
+    const response = await axiosInstance.get("/api/flashcards/starred");
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Error fetching starred cards" };
+  }
+};
+
 const flashcardService = {
-    getAllFlashcardSets , getFlashcardsForDocument , reviewFlashcard , toggleStar , deleteFlashcardSet
+    getAllFlashcardSets , getFlashcardsForDocument , reviewFlashcard , toggleStar , deleteFlashcardSet , getStarredFlashcards
 } 
 
 export default flashcardService ; 
